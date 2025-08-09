@@ -1,40 +1,18 @@
-let {model,Schema}=require("mongoose");
-let bcrypt=require("bcrypt")
+const mongoose = require("mongoose");
 
-let addAgentSchema=new Schema({
-    name:{
-        type:String,
-        required:true
+const agentSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "login", // main user model
+      required: true,
     },
-    email:{
-        type:String,
-        required:true,
-        lowercase:true,
-        unique:true
-    },
-    mobno:{
-        type:String,
-        required:true
-    },
-    password:{
-        type:String,
-        required:true
-    }
-})
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    mobno: { type: String, required: true },
+    password: { type: String, required: true },
+  },
+  { timestamps: true }
+);
 
-addAgentSchema.pre("save",async function(next){
-    if(!this.isModified("password")) return next();
-    try {
-        let salt = await bcrypt.genSalt(10);
-        this.password = await bcrypt.hash(this.password, salt);
-        next();
-    } catch (error) {
-        next(error)
-    }
-})
-
-addAgentSchema.methods.compare=async function(password){
-    return await bcrypt.compare(password,this.password)
-}
-
-module.exports=model("addAgentSchema",addAgentSchema)
+module.exports = mongoose.model("AddAgent", agentSchema);

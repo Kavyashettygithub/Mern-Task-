@@ -11,34 +11,46 @@ const Addagent = () => {
   const [message, setMessage] = useState(null)
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    const mobno = `${countryCode}${phoneNumber}`
+  e.preventDefault();
+  const mobno = `${countryCode}${phoneNumber}`;
+  const token = localStorage.getItem("token");
 
-      try {
-      const res = await axios.post("http://localhost:3000/api/login/agentRegister", {
-        name,
-        email,
-        mobno,
-        password
-      })
+  if (!token) {
+    setError("You must be logged in to register an agent.");
+    setMessage(null);
+    return;
+  }
 
-      if (res.data.error) {
-        setError(res.data.message)
-        setMessage(null)
-      } else {
-        setMessage("Agent registered successfully!")
-        setError(null)
-        // Clear form
-        setName("")
-        setEmail("")
-        setPhoneNumber("")
-        setPassword("")
-        setCountryCode("+91")
+  try {
+    const res = await axios.post(
+      "http://localhost:3000/api/login/agentRegister",
+      { name, email, mobno, password },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // ✅ send JWT token
+        },
       }
-    } catch (err) {
-      setError("Something went wrong.")
-      setMessage(null)
+    );
+
+    if (res.data.error) {
+      setError(res.data.message);
+      setMessage(null);
+    } else {
+      setMessage("Agent registered successfully!");
+      setError(null);
+      // Clear form
+      setName("");
+      setEmail("");
+      setPhoneNumber("");
+      setPassword("");
+      setCountryCode("+91");
     }
+  } catch (err) {
+    console.error(err);
+    setError("Something went wrong.");
+    setMessage(null);
+  }
+
   }
 
   return (

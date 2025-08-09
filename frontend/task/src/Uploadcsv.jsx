@@ -12,11 +12,20 @@ const Uploadcsv = () => {
       return;
     }
 
-    const formData = new FormData(); 
+    const formData = new FormData();
     formData.append('file', file);
 
     try {
-      const res = await axios.post('http://localhost:3000/api/login/upload', formData);
+      const res = await axios.post(
+        'http://localhost:3000/api/login/upload',
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "Authorization": `Bearer ${localStorage.getItem("token")}` 
+          }
+        }
+      );
       setMessage(res.data.message || "File uploaded successfully");
     } catch (error) {
       console.error(error);

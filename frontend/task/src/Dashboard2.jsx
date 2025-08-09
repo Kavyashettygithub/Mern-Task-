@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
 
-const Dashboard = () => {
+const Dashboard2 = () => {
   return (
     <div className="min-h-screen flex bg-gray-100">
       
@@ -12,7 +12,7 @@ const Dashboard = () => {
           <Link to="addAgent" className="hover:text-blue-600">➕ Add Agent </Link>
           <Link to="uploadcsv" className="hover:text-green-600">📤 Upload CSV</Link>
           <Link to="view" className="hover:text-purple-600">📄 View Tasks</Link>
-          <Link to="agent" className='hover:text-blue-300'>View Agent</Link>
+            <Link to="agent" className='hover:text-blue-300'>View Agent</Link>
           <Link to="logout" className='hover:text-blue-300'>🚪Log Out</Link>
         </nav>
       </aside>
@@ -26,4 +26,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Dashboard2

@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
-
-const Logindata = () => {
-  const [email, setEmail] = useState("")
+const AgentLogin = () => {
+    const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [message, setMessage] = useState("")
   const navigate = useNavigate()
@@ -11,13 +10,13 @@ const Logindata = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const res = await axios.post("http://localhost:3000/api/login/loginData", { email, password })
+      const res = await axios.post("http://localhost:3000/api/login/agentlogin", { email, password })
       if (res.data.error) {
         setMessage(res.data.message)
       } else {
         setMessage("Login successfully")
         localStorage.setItem("token", res.data.token)
-        navigate('/dashboard')
+        navigate('/dash')
       }
     } catch (error) {
       setMessage("Login failed")
@@ -30,7 +29,7 @@ const Logindata = () => {
         onSubmit={handleSubmit}
         className="bg-white shadow-md rounded-xl p-8 w-full max-w-sm space-y-5"
       >
-        <h1 className="text-2xl font-bold text-center text-blue-600">Login</h1>
+        <h1 className="text-2xl font-bold text-center text-blue-600">Agent Login</h1>
 
         <div>
           <label className="block text-sm font-medium text-gray-700">Email</label>
@@ -67,11 +66,8 @@ const Logindata = () => {
 
         <p className="text-sm text-center text-gray-600">
           Don't have an account?{" "}
-          <Link to="/register" className="text-blue-600 hover:underline">
-            Register
-          </Link>
-          <Link to="/agentlogin" className="text-blue-600 hover:underline mx-4">
-            AgentLogin
+          <Link to="/" className="text-blue-600 hover:underline">
+            Login
           </Link>
         </p>
       </form>
@@ -79,4 +75,4 @@ const Logindata = () => {
   )
 }
 
-export default Logindata
+export default AgentLogin
